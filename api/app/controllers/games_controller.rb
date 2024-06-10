@@ -6,7 +6,7 @@ class GamesController < ApplicationController
 
   def play
     result = Rps::Throw.new(player_throw: player_throw).call
-    render json: { player_throw: player_throw, result: result }
+    render json: result
   rescue RpsApi::Error => e
     render json: { error: e.message }, status: e.status
   end

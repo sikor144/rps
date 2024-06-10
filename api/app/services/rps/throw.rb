@@ -15,13 +15,13 @@ module Rps
     end
 
     def call
-      if WIN_CONDITIONS[player_throw].include?(computer_throw)
-        'Player wins'
-      elsif WIN_CONDITIONS[computer_throw].include?(player_throw)
-        'Computer wins'
-      else
-        'Draw'
-      end
+      result = determine_result
+
+      {
+        player_throw: player_throw,
+        computer_throw: computer_throw,
+        result: result
+      }
     end
 
     private
@@ -31,16 +31,27 @@ module Rps
     def computer_throw
       server_throw
     rescue RpsApi::TimeoutError, RpsApi::ServerError, RpsApi::UnexpectedError
-      generate_random_throw
+      random_throw
     end
 
-    def generate_random_throw
-      THROWS.sample
+    def determine_result
+      return 'Draw' if player_throw == computer_throw
+
+      if WIN_CONDITIONS[player_throw].include?(computer_throw)
+        'Player wins'
+      elsif WIN_CONDITIONS[computer_throw].include?(player_throw)
+        'Computer wins'
+      else
+        'Draw'
+      end
+    end
+
+    def random_throw
+      @random_throw ||= THROWS.sample
     end
 
     def server_throw
-      response = RpsApi::GetServerThrow.new.call
-      response['body']
+      @server_throw ||= RpsApi::GetServerThrow.new.call['body']
     end
   end
 end

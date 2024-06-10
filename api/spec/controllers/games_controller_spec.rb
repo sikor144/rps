@@ -11,14 +11,19 @@ RSpec.describe GamesController, type: :controller do
     context 'with a valid throw' do
       before do
         allow_any_instance_of(Rps::Throw).to receive(:call)
-          .and_return('Player wins')
+          .and_return({
+                        player_throw: 'rock',
+                        computer_throw: 'scissors',
+                        result: 'Player wins'
+                      })
       end
 
       it 'returns a successful response' do
         get :play, params: { player_throw: player_throw }
         expect(response).to have_http_status(:ok)
         body = JSON.parse(response.body)
-        expect(body['player_throw']).to eq(player_throw)
+        expect(body['player_throw']).to eq('rock')
+        expect(body['computer_throw']).to eq('scissors')
         expect(body['result']).to eq('Player wins')
       end
     end
@@ -35,7 +40,7 @@ RSpec.describe GamesController, type: :controller do
     context 'when the service raises an error' do
       before do
         allow_any_instance_of(Rps::Throw).to receive(:call)
-          .and_raise(RpsApi::ServerError, 'Server Error')
+          .and_raise(RpsApi::ServerError.new)
       end
 
       it 'returns an internal server error' do
