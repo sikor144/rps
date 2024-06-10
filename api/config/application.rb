@@ -7,7 +7,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 # Load environment variables from .env file
-Dotenv::Railtie.load if defined?(Dotenv::Railtie)
+Dotenv::Rails.load if defined?(Dotenv::Rails)
 
 module RpsApi
   class Application < Rails::Application
