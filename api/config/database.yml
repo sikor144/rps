@@ -79,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: rps_api_production
-  username: rps_api
-  password: <%= ENV["RPS_API_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>

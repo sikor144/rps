@@ -3,6 +3,8 @@
 require 'faraday'
 require 'json'
 
+require_relative 'error'
+
 module RpsApi
   # Base class for all services
   class Base
