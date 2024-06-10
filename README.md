@@ -27,10 +27,9 @@ Before you begin, make sure you have the following installed on your machine:
 3. **Edit the `.env` file** to configure the environment variables:
 
    ```env
-   POSTGRES_USER=your_postgres_user
-   POSTGRES_PASSWORD=your_postgres_password
-   POSTGRES_DB=your_postgres_db
-   SECRET_KEY_BASE=your_secret_key_base
+    DATABASE_URL=postgres://rps_api:your_password@postgres:5432/rps_api_production
+    RPS_API_BASE_URL=https://private-anon-c0651d3e1b-curbrockpaperscissors.apiary-mock.com
+    SECRET_KEY_BASE=your_secret_key_base
    ```
 
 ## Running the Application
